@@ -1,25 +1,30 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { CrossSimple } from '@/components/ui/crosses'
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   const router = useRouter()
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError]       = useState('')
-  const [loading, setLoading]   = useState(false)
+  const [password, setPassword]   = useState('')
+  const [confirm, setConfirm]     = useState('')
+  const [error, setError]         = useState('')
+  const [loading, setLoading]     = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    setLoading(true)
 
+    if (password !== confirm) {
+      setError('Passwords do not match.')
+      return
+    }
+
+    setLoading(true)
     const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+    const { error: authError } = await supabase.auth.updateUser({ password })
 
     if (authError) {
       setError(authError.message)
@@ -40,37 +45,35 @@ export default function LoginPage() {
       <div className="card-kirar w-full max-w-sm p-8">
         <CrossSimple className="w-6 h-6 text-[#C9A84C] mx-auto mb-3 opacity-60" />
         <h1 className="text-[#F5EDD6] text-xl font-semibold text-center mb-6">
-          Welcome back
+          Choose a new password
         </h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[#F5EDD6]/50 text-xs uppercase tracking-wider">Email</label>
+            <label className="text-[#F5EDD6]/50 text-xs uppercase tracking-wider">
+              New password
+            </label>
             <input
-              type="email"
+              type="password"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              minLength={8}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="bg-[#0d0a05] border border-[rgba(201,168,76,0.25)] rounded px-3 py-2.5 text-[#F5EDD6] text-sm outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#F5EDD6]/20"
-              placeholder="you@example.com"
+              placeholder="8+ characters"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <div className="flex items-center justify-between">
-              <label className="text-[#F5EDD6]/50 text-xs uppercase tracking-wider">Password</label>
-              <Link
-                href="/forgot-password"
-                className="text-[#C9A84C]/60 text-xs hover:text-[#C9A84C] transition-colors"
-              >
-                Forgot password?
-              </Link>
-            </div>
+            <label className="text-[#F5EDD6]/50 text-xs uppercase tracking-wider">
+              Confirm password
+            </label>
             <input
               type="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              minLength={8}
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
               className="bg-[#0d0a05] border border-[rgba(201,168,76,0.25)] rounded px-3 py-2.5 text-[#F5EDD6] text-sm outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#F5EDD6]/20"
               placeholder="••••••••"
             />
@@ -87,14 +90,9 @@ export default function LoginPage() {
             disabled={loading}
             className="mt-1 py-2.5 rounded bg-[#C9A84C] text-[#1A1209] font-semibold text-sm hover:bg-[#E2C97E] transition-colors disabled:opacity-50"
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'Updating…' : 'Update password'}
           </button>
         </form>
-
-        <p className="text-center text-[#F5EDD6]/40 text-xs mt-6">
-          No account?{' '}
-          <Link href="/signup" className="text-[#C9A84C] hover:underline">Sign up free</Link>
-        </p>
       </div>
     </div>
   )

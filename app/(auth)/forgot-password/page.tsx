@@ -2,17 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CrossSimple } from '@/components/ui/crosses'
 
-export default function SignupPage() {
-  const router = useRouter()
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError]       = useState('')
-  const [loading, setLoading]   = useState(false)
-  const [checkEmail, setCheckEmail] = useState(false)
+export default function ForgotPasswordPage() {
+  const [email, setEmail]     = useState('')
+  const [error, setError]     = useState('')
+  const [sent, setSent]       = useState(false)
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -20,10 +17,8 @@ export default function SignupPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { data, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+    const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
     })
 
     if (authError) {
@@ -32,34 +27,24 @@ export default function SignupPage() {
       return
     }
 
-    // session is null → Supabase email confirmation is required
-    if (!data.session) {
-      setCheckEmail(true)
-      setLoading(false)
-      return
-    }
-
-    // email confirm is disabled → user is already logged in
-    router.push('/dashboard')
-    router.refresh()
+    setSent(true)
+    setLoading(false)
   }
 
-  if (checkEmail) {
+  if (sent) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#1A1209]">
         <div className="card-kirar w-full max-w-sm p-8 text-center">
           <CrossSimple className="w-8 h-8 text-[#C9A84C] mx-auto mb-4 opacity-60" />
           <h1 className="text-[#F5EDD6] text-xl font-semibold mb-3">Check your inbox</h1>
           <p className="text-[#F5EDD6]/50 text-sm leading-relaxed mb-6">
-            We sent a confirmation link to <span className="text-[#C9A84C]">{email}</span>.
-            Click it to activate your account and start learning.
+            We sent a password reset link to{' '}
+            <span className="text-[#C9A84C]">{email}</span>.
+            The link expires in 1 hour.
           </p>
-          <p className="text-[#F5EDD6]/30 text-xs">
-            Already confirmed?{' '}
-            <Link href="/login" className="text-[#C9A84C] hover:underline">
-              Sign in
-            </Link>
-          </p>
+          <Link href="/login" className="text-[#C9A84C] text-sm hover:underline">
+            Back to sign in
+          </Link>
         </div>
       </div>
     )
@@ -74,10 +59,10 @@ export default function SignupPage() {
       <div className="card-kirar w-full max-w-sm p-8">
         <CrossSimple className="w-6 h-6 text-[#C9A84C] mx-auto mb-3 opacity-60" />
         <h1 className="text-[#F5EDD6] text-xl font-semibold text-center mb-2">
-          Start your journey
+          Reset password
         </h1>
         <p className="text-[#F5EDD6]/40 text-xs text-center mb-6">
-          First 2 lessons are free — no card required.
+          Enter your email and we will send a reset link.
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -93,19 +78,6 @@ export default function SignupPage() {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[#F5EDD6]/50 text-xs uppercase tracking-wider">Password</label>
-            <input
-              type="password"
-              required
-              minLength={8}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-[#0d0a05] border border-[rgba(201,168,76,0.25)] rounded px-3 py-2.5 text-[#F5EDD6] text-sm outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#F5EDD6]/20"
-              placeholder="8+ characters"
-            />
-          </div>
-
           {error && (
             <p className="text-sm text-[#8B1A1A] border border-[#8B1A1A]/30 rounded px-3 py-2 bg-[#8B1A1A]/10">
               {error}
@@ -117,13 +89,12 @@ export default function SignupPage() {
             disabled={loading}
             className="mt-1 py-2.5 rounded bg-[#C9A84C] text-[#1A1209] font-semibold text-sm hover:bg-[#E2C97E] transition-colors disabled:opacity-50"
           >
-            {loading ? 'Creating account…' : 'Create free account'}
+            {loading ? 'Sending…' : 'Send reset link'}
           </button>
         </form>
 
         <p className="text-center text-[#F5EDD6]/40 text-xs mt-6">
-          Already have an account?{' '}
-          <Link href="/login" className="text-[#C9A84C] hover:underline">Sign in</Link>
+          <Link href="/login" className="text-[#C9A84C] hover:underline">Back to sign in</Link>
         </p>
       </div>
     </div>
