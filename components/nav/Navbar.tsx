@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const LEVELS = [
@@ -37,9 +38,15 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-[#C9A84C] font-bold tracking-[0.2em] uppercase text-sm flex items-center gap-2"
+          className="text-[#C9A84C] font-bold tracking-[0.2em] uppercase text-sm flex items-center gap-2.5"
         >
-          <span className="text-lg">✛</span>
+          <Image
+            src="/assets/kirar-logo.png"
+            alt="Kirar"
+            width={345}
+            height={516}
+            className="w-7 h-auto object-contain"
+          />
           Kirar Timhirt
         </Link>
 
