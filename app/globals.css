@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
+/* ── Kirar Timhirt Design System ────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold:       #C9A84C;
+  --gold-light: #E2C97E;
+  --gold-dark:  #9A7A2E;
+  --crimson:    #8B1A1A;
+  --lapis:      #1A3A6B;
+  --parchment:  #F5EDD6;
+  --ink:        #1A1209;
+  --ink-deep:   #0d0a05;
+  --muted:      #7A6A50;
+
+  --background: var(--ink);
+  --foreground: var(--parchment);
 }
 
 @theme inline {
+  --color-gold:       var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark:  var(--gold-dark);
+  --color-crimson:    var(--crimson);
+  --color-lapis:      var(--lapis);
+  --color-parchment:  var(--parchment);
+  --color-ink:        var(--ink);
+  --color-ink-deep:   var(--ink-deep);
+  --color-muted:      var(--muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Animations ─────────────────────────────────────────────────────────── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-18px) rotate(0.4deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; text-shadow: 0 0 24px rgba(201,168,76,0.3); }
+  50%       { opacity: 0.85; text-shadow: 0 0 48px rgba(201,168,76,0.6), 0 0 80px rgba(201,168,76,0.2); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50%       { transform: translateY(6px); opacity: 1; }
+}
+
+.animate-float       { animation: float 7s ease-in-out infinite; }
+.animate-pulse-glow  { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-fade-up     { animation: fade-up 0.7s ease both; }
+.animate-fade-up-2   { animation: fade-up 0.7s 0.15s ease both; }
+.animate-fade-up-3   { animation: fade-up 0.7s 0.3s ease both; }
+.animate-fade-up-4   { animation: fade-up 0.7s 0.45s ease both; }
+.animate-spin-slow   { animation: spin-slow 24s linear infinite; }
+.animate-scroll      { animation: scroll-bounce 1.6s ease-in-out infinite; }
+
+/* ── Divider cross ──────────────────────────────────────────────────────── */
+
+.divider-cross {
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+.divider-cross::before,
+.divider-cross::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 44%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+.divider-cross::before { left: 0; }
+.divider-cross::after  { right: 0; background: linear-gradient(to left, transparent, var(--gold)); }
+
+/* ── Cards ──────────────────────────────────────────────────────────────── */
+
+.card-kirar {
+  border: 1px solid rgba(201,168,76,0.22);
+  background: rgba(255,255,255,0.025);
+  border-radius: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card-kirar:hover {
+  border-color: rgba(201,168,76,0.5);
+  box-shadow: 0 0 32px rgba(201,168,76,0.07);
+}
+
+/* ── GIF frame ──────────────────────────────────────────────────────────── */
+
+.gif-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 2px solid var(--gold);
+  background: var(--ink-deep);
+}
+
+/* ── Glassmorphism nav ──────────────────────────────────────────────────── */
+
+.glass-nav {
+  background: rgba(26,18,9,0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+/* ── Gold radial glow (behind hero headline) ────────────────────────────── */
+
+.gold-glow {
+  position: absolute;
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Step number ring ───────────────────────────────────────────────────── */
+
+.step-ring {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201,168,76,0.06);
+  color: var(--gold);
+  font-size: 0.875rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
