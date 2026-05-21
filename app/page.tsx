@@ -96,15 +96,21 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto">
 
-            {/* Animated ornate Ethiopian cross */}
-            <CrossOrnate
-              maskId="cross-hero"
-              className="animate-pulse-glow-svg text-[#C9A84C] w-28 sm:w-36 mb-8 select-none"
-            />
-
-            <p className="animate-fade-up text-[#C9A84C] text-xs sm:text-sm tracking-[0.3em] uppercase mb-5 font-medium">
+            <p className="animate-fade-up text-[#C9A84C] text-xs sm:text-sm tracking-[0.3em] uppercase mb-8 font-medium">
               Ethiopian Kirar Learning Platform
             </p>
+
+            {/* Real Ethiopian Orthodox processional cross */}
+            <div className="animate-pulse-glow-svg mb-8 select-none">
+              <Image
+                src="/assets/meskel-cross.png"
+                alt="Ethiopian Orthodox processional cross"
+                width={172}
+                height={401}
+                className="w-28 sm:w-36 h-auto object-contain drop-shadow-[0_0_32px_rgba(201,168,76,0.5)]"
+                priority
+              />
+            </div>
 
             <h1 className="animate-fade-up-2 text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F5EDD6] leading-[1.05] tracking-tight mb-6">
               Learn Kirar<br />
