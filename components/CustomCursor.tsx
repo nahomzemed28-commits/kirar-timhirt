@@ -30,12 +30,12 @@ export default function CustomCursor() {
     function tick() {
       ringX = lerp(ringX, mouseX, 0.1)
       ringY = lerp(ringY, mouseY, 0.1)
-      ring.style.transform = `translate(${ringX}px, ${ringY}px)`
+      ring!.style.transform = `translate(${ringX}px, ${ringY}px)`
       rafId = requestAnimationFrame(tick)
     }
 
-    function onEnterLink() { ring.classList.add('cursor-hover') }
-    function onLeaveLink() { ring.classList.remove('cursor-hover') }
+    function onEnterLink() { ring!.classList.add('cursor-hover') }
+    function onLeaveLink() { ring!.classList.remove('cursor-hover') }
 
     document.addEventListener('mousemove', onMove)
 
