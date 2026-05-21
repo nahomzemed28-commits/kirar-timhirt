@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '@/components/nav/Navbar'
+import { CrossOrnate, CrossSimple } from '@/components/ui/crosses'
 
 const LEVELS = [
   { num: '01', title: 'Foundations', desc: 'Posture, string names, tuning by ear, and your first clean pluck.', icon: '🎵' },
@@ -95,10 +96,11 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto">
 
-            {/* Animated cross */}
-            <div className="animate-pulse-glow text-[#C9A84C] text-8xl sm:text-9xl mb-8 leading-none select-none">
-              ✛
-            </div>
+            {/* Animated ornate Ethiopian cross */}
+            <CrossOrnate
+              maskId="cross-hero"
+              className="animate-pulse-glow-svg text-[#C9A84C] w-28 sm:w-36 mb-8 select-none"
+            />
 
             <p className="animate-fade-up text-[#C9A84C] text-xs sm:text-sm tracking-[0.3em] uppercase mb-5 font-medium">
               Ethiopian Kirar Learning Platform
@@ -411,7 +413,10 @@ export default function LandingPage() {
         {/* FINAL CTA BAND                                                */}
         {/* ══════════════════════════════════════════════════════════════ */}
         <section className="relative px-6 py-28 max-w-3xl mx-auto w-full text-center">
-          <div className="text-[#C9A84C] animate-pulse-glow text-7xl mb-8 leading-none select-none">✛</div>
+          <CrossOrnate
+          maskId="cross-cta"
+          className="animate-pulse-glow-svg text-[#C9A84C] w-24 mb-8 mx-auto select-none"
+        />
           <h2 className="text-4xl sm:text-5xl font-bold text-[#F5EDD6] mb-5 leading-tight">
             The Kirar is waiting.<br />
             <span className="text-[#C9A84C]">Start today.</span>
@@ -436,7 +441,7 @@ export default function LandingPage() {
           {/* Brand */}
           <div>
             <p className="text-[#C9A84C] font-bold tracking-widest uppercase text-sm mb-3 flex items-center gap-2">
-              <span>✛</span> Kirar Timhirt
+              <CrossSimple className="w-4 h-4 text-[#C9A84C] shrink-0" /> Kirar Timhirt
             </p>
             <p className="text-[#F5EDD6]/35 text-xs leading-relaxed max-w-xs">
               A structured, visual, and musical way to learn the traditional East African Kirar —
@@ -471,7 +476,10 @@ export default function LandingPage() {
           <p className="text-[#F5EDD6]/20 text-xs">
             © {new Date().getFullYear()} Kirar Timhirt
           </p>
-          <p className="text-[#F5EDD6]/20 text-xs">Built with love for Ethiopian music ✛</p>
+          <p className="text-[#F5EDD6]/20 text-xs flex items-center gap-1.5">
+            Built with love for Ethiopian music
+            <CrossSimple className="w-3 h-3 text-[#F5EDD6]/20 shrink-0" />
+          </p>
         </div>
       </footer>
 
