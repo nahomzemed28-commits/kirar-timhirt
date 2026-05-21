@@ -6,10 +6,10 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const LEVELS = [
-  { num: '01', title: 'Foundations', desc: 'Holding, posture & tuning', href: '/dashboard' },
-  { num: '02', title: 'Patterns',    desc: 'Rhythm, speed & transitions', href: '/dashboard' },
-  { num: '03', title: 'Real Music',  desc: 'Traditional melodies & Mezmur', href: '/dashboard' },
-  { num: '04', title: 'Expression',  desc: 'Improvisation & feel', href: '/dashboard' },
+  { num: '01', title: 'Foundations', desc: 'Holding, posture & tuning',       href: '/lessons/foundations' },
+  { num: '02', title: 'Patterns',    desc: 'Rhythm, speed & transitions',     href: '/lessons/patterns'    },
+  { num: '03', title: 'Real Music',  desc: 'Traditional melodies & Mezmur',   href: '/lessons/real-music'  },
+  { num: '04', title: 'Expression',  desc: 'Improvisation & feel',            href: '/lessons/expression'  },
 ]
 
 export default function Navbar() {
